@@ -1,0 +1,2 @@
+class NoSuchVariableException(Exception):
+    pass

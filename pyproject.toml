@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "6s_software_doc_design_lab_4"
+version = "0.1.0"
+description = ""
+authors = ["smallpoxlviv <walterwhite.99.100@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.78.0"
+uvicorn = {extras = ["standard"], version = "^0.17.6"}
+requests = "^2.28.0"
+azure-eventhub = "^5.10.0"
+azure-eventhub-checkpointstoreblob-aio = "^1.1.4"
+python-dotenv = "^0.20.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
