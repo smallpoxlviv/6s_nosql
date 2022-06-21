@@ -1,5 +1,6 @@
 import asyncio
 import json
+import time
 
 from azure.eventhub import EventData
 from azure.eventhub.aio import EventHubProducerClient
@@ -19,12 +20,19 @@ class SendTextKafka(SendText):
         )
 
     async def send_text(self, text_list: list):
+        start_time = time.time()
         async with self.producer:
-            coros = []
+            event_data_batch = await self.producer.create_batch()
             for dict_obj in text_list:
                 text = json.dumps(dict_obj)
-                print(text)
-                coros.append(self.producer.send_event(EventData(text)))
-            await asyncio.gather(*coros)
+                event_data = EventData(text)
+                try:
+                    event_data_batch.add(event_data)
+                except ValueError:
+                    await self.producer.send_batch(event_data_batch)
+                    event_data_batch = await self.producer.create_batch()
+                    event_data_batch.add(event_data)
+            if len(event_data_batch) > 0:
+                await self.producer.send_batch(event_data_batch)
 
-
+        print(f"Send messages in {time.time() - start_time} seconds.")
