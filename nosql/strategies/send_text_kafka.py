@@ -1,4 +1,3 @@
-import asyncio
 import json
 import time
 
@@ -6,14 +5,13 @@ from azure.eventhub import EventData
 from azure.eventhub.aio import EventHubProducerClient
 
 from .send_text import SendText
-from nosql.exceptions import NoSuchVariableException
 
 
 class SendTextKafka(SendText):
 
     def __init__(self, conn_str: str, eventhub_name: str):
         if conn_str is None or eventhub_name is None:
-            raise NoSuchVariableException
+            raise Exception('No conn_str or eventhub_name')
         self.producer = EventHubProducerClient.from_connection_string(
             conn_str=conn_str,
             eventhub_name=eventhub_name

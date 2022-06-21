@@ -5,9 +5,8 @@ import uvicorn
 from dotenv import load_dotenv
 from fastapi import FastAPI, BackgroundTasks
 
-from nosql.strategies import SendTextFile
 from redis_connector import RedisConnector
-from strategies import Strategy, SendTextConsole, SendTextKafka
+from strategies import Strategy, SendTextConsole, SendTextKafka, SendTextFile
 from utils import read_from_api, file_name_from_url
 
 app = FastAPI()
