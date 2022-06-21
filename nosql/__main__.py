@@ -31,7 +31,7 @@ async def root():
 
 
 @app.get("/api")
-async def process(strategy: str, json_url: str, background_tasks: BackgroundTasks):
+async def process(json_url: str, background_tasks: BackgroundTasks, strategy: str = Strategy.CONSOLE):
     completed = redis.hget(json_url, 'completed')
     if completed:
         return f"You tried to process file {json_url} several times"
