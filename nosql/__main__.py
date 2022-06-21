@@ -68,4 +68,4 @@ async def main(file_url: str, strategy: Strategy):
 
 
 if __name__ == '__main__':
-    uvicorn.run(app, port=8081, host='127.0.0.1')
+    uvicorn.run(app, port=8081, host='0.0.0.0')
