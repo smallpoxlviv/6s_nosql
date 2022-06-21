@@ -20,6 +20,6 @@ RUN poetry install --no-dev
 
 COPY . .
 
-EXPOSE 8080
+EXPOSE 8081
 
 ENTRYPOINT ["python3", "nosql"]
