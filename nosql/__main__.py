@@ -14,7 +14,6 @@ app = FastAPI()
 load_dotenv()
 CONN_STR = os.getenv('CONN_STR')
 EVENTHUB_NAME = os.getenv('EVENTHUB_NAME')
-STRATEGY = os.getenv('STRATEGY', default='file')
 R_HOST = os.getenv('R_HOST')
 R_PORT = os.getenv('R_PORT')
 R_ACCESS_KEY = os.getenv('R_ACCESS_KEY')
@@ -32,15 +31,15 @@ async def root():
 
 
 @app.get("/api")
-async def process(json_url: str, background_tasks: BackgroundTasks):
+async def process(strategy: str, json_url: str, background_tasks: BackgroundTasks):
     completed = redis.hget(json_url, 'completed')
     if completed:
         return f"You tried to process file {json_url} several times"
     else:
-        background_tasks.add_task(main, json_url, STRATEGY)
+        background_tasks.add_task(main, json_url, strategy)
         redis.hset(name=json_url, key='name', value=file_name_from_url(json_url))
         redis.hset(name=json_url, key='start_time', value=time.time())
-        return f"Processing started with strategy: {STRATEGY}. File path: '{json_url}'"
+        return f"Processing started with strategy: {strategy}. File path: '{json_url}'"
 
 
 @app.get("/del_redis")
